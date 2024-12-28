@@ -1,69 +1,73 @@
-import { Image, ImageBackground, Pressable, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+
+import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useState } from 'react'
-import { useRoute } from '@react-navigation/native'
-import { Route } from 'expo-router/build/Route';
-import { useNavigation } from 'expo-router';
-import StoreContext from '@/store/StoreContext';
+import { useLocalSearchParams, useNavigation } from 'expo-router'
+import { Image } from 'react-native'
+import StoreContext from '@/store/StoreContext'
 
+const Screen2 = () => {
+  const data = useLocalSearchParams()
+  console.log(data);
 
-
-const screen2 = () => {
-  const route = useRoute()
-  
-
-  const [x, setx] = useState(1)
-  const nav = useNavigation()
   const { cart, setCart } = useContext(StoreContext)
+
+  const [amount, setAmount] = useState(1)
+  const nav = useNavigation()
 
   const addToCart = () => {
     const CartList = cart
-    // if (CartList.includes(route.params)){
-      CartList.push(route.params)
-    // }
-    
+    const found = CartList.find((element) => element.name == data.name);
+    if (found) {
+      console.log("found");
+
+      found.amount += amount;
+    } else {
+      CartList.push(data)
+    }
     setCart(CartList)
-    nav.navigate('cart', { x })
+    //   nav.reset({
+    //     index: 0,
+    //     routes: [{ name: 'cart' }]
+    //   })
+    // }
+    nav.replace('cart', { amount: amount })
+
   }
+
   return (
     <View style={styles.vv}>
       <Text style={styles.product}>  information about this product :</Text>
 
       <View>
-        <Image source={route.params.img} style={styles.img} />
-        <Text style={styles.way}> {route.params.name}</Text>
-        <Text style={styles.way} > {x * route.params.price}$</Text>
-
+        <Image source={data.img} style={styles.img} />
+        <Text style={styles.way}> {data.name}</Text>
+        <Text style={styles.way} > {amount * data.price}$</Text>
       </View>
 
 
       <View style={styles.math}>
 
-        <Pressable onPress={() => setx(x + 1)}>
-          <View style={styles.way3}>
-            <Text style={styles.way2}>+</Text>
-          </View>
+        <Pressable style={styles.way3} onPress={() => setAmount(amount + 1)}>
+          <Text style={styles.way2}>+</Text>
         </Pressable>
 
-        <Text style={styles.count}>{x}</Text>
+        <Text style={styles.count}>{amount}</Text>
 
 
-        <Pressable onPress={() => {
-          if (x > 1) {
-            setx(x - 1)
+        <Pressable style={styles.way3} onPress={() => {
+          if (amount > 1) {
+            setAmount(amount - 1)
 
 
           }
           // setx(x - 1)
         }}>
-          <View style={styles.way3}>
-
-            <Text style={styles.way2}>-</Text>
-          </View>
-
+          <Text style={styles.way2}>-</Text>
         </Pressable>
+
       </View >
       <TouchableOpacity style={styles.orderView} onPress={addToCart}>
-        <Text>ORDER</Text>
+        <Text>add to cart</Text>
       </TouchableOpacity>
 
 
@@ -73,7 +77,7 @@ const screen2 = () => {
   )
 }
 
-export default screen2
+export default Screen2
 
 const styles = StyleSheet.create({
   product: {
@@ -83,12 +87,12 @@ const styles = StyleSheet.create({
   },
 
   math: {
-
+    alignSelf: 'center',
     flexDirection: 'row',
     width: 120,
     alignItems: 'center',
-    justifyContent: 'space-around',
-    marginLeft: 20
+    justifyContent: 'center',
+    // marginLeft: 20
     // alignSelf: 'center'
 
   },
@@ -97,15 +101,15 @@ const styles = StyleSheet.create({
     fontSize: 30,
     // marginLeft:20,
     marginVertical: 15,
-
-
+    alignSelf: 'center',
 
   },
   img: {
-    width: '70%',
+    width: '80%',
     height: 350,
     borderRadius: 10,
     marginRight: 15,
+    alignSelf: 'center'
     // resizeMode: 'contain'
   },
   vv: {
@@ -127,7 +131,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     // borderWidth: 1,
 
-
   },
   count: {
     fontSize: 20,
@@ -137,7 +140,8 @@ const styles = StyleSheet.create({
   },
   orderView: {
     height: 50,
-    width: 100,
+    padding: 10,
+    // width: 100,
     backgroundColor: "lightblue",
     borderWidth: 1,
     borderRadius: 30,

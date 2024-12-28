@@ -7,31 +7,34 @@ import { useContext } from 'react';
 import StoreContext from '@/store/StoreContext';
 import { useRoute } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { TouchableOpacity } from 'react-native';
+import { useLocalSearchParams } from 'expo-router';
 
 const cart = () => {
-    const route = useRoute()
+    // const route = useRoute()
     const { cart, setCart } = useContext(StoreContext)
+    const amount = useLocalSearchParams()
+    console.log(amount);
     
-    const deleteItem = (id) => {
-        const filterdata = cart.filter(item => item.id=!id)
-        
-        setCart(filterdata)
-        return filterdata
+    const deleteItem = (index) => {
+        cart.splice(index, 1)
+        setCart([...cart])
     }
 
     const renderData = () => {
-        const render = cart.map(val => {
+        const render = cart?.map((val, index) => {
             return (
                 <View style={styles.tit3}>
                     <Image style={styles.img2} source={val.img} />
 
                     <View>
                         <Text style={styles.txt}>{val.name}</Text>
-                        <Text style={styles.txt}>{val.price * route.params.x}$</Text>
-                        
+                        <Text style={styles.txt}>{val.price * amount.amount }$</Text>
+                        <Text style={styles.txt}>{"number: " + amount.amount }</Text>
+
                     </View>
 
-                    <Pressable onPress={() => deleteItem(val.id)}>
+                    <Pressable onPress={() => deleteItem(index)}>
                         <Ionicons name='trash-outline' size={30} color={"red"} />
                     </Pressable>
 
@@ -41,12 +44,15 @@ const cart = () => {
         return render
     }
     return (
-        <View>
+        <View style={styles.screen4}>
             <ScrollView>
-                
+
 
                 {renderData()}
             </ScrollView>
+            <TouchableOpacity style={styles.Order2}>
+                <Text >Order</Text>
+            </TouchableOpacity>
         </View>
     )
 }
@@ -70,6 +76,16 @@ const styles = StyleSheet.create({
     },
     txt: {
         fontSize: 25
+    },
+    screen4: {
+        flex: 1
+    },
+    Order2: {
+        backgroundColor:"#edfff5",
+        margin: 20,
+        padding: 10,
+        borderRadius: 10,
+        alignSelf: 'center'
     }
 
 

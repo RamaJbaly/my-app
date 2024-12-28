@@ -1,13 +1,22 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigation } from 'expo-router'
+import  data  from '@/assets/res/data'
 
 
 const index = () => {
   const nav = useNavigation()
+  console.log(data);
+
+  useEffect(() => {
+      setTimeout(() => {
+        nav.replace('login')    
+      },150);
+  }, [])
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.toy} onPress={() => {nav.navigate('LOGin')}}>
+      <TouchableOpacity style={styles.toy} onPress={() => {nav.navigate('login')}}>
         <Text style={styles.tip}>ERGIN SHOP</Text>
       </TouchableOpacity>
     </View>

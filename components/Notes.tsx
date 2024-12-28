@@ -1,7 +1,7 @@
 import { useNavigation } from 'expo-router';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import dataGellary from './../assets/res/dataGellary';
+import dataGellary from '../assets/res/dataGellary';
 
 const Notes = (props) => {
     const nav = useNavigation();
@@ -13,7 +13,7 @@ const Notes = (props) => {
 
 
 
-            <TouchableOpacity style={styles.x} onPress={() => { nav.navigate('screen2', { ...props }) }}>
+            <TouchableOpacity style={styles.x} onPress={() => { nav.navigate('screen2', {...props}) }}>
                 <Image style={styles.img} source={props.img} />
                 <View>
                     <View>

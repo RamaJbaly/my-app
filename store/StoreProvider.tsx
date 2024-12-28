@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import StoreContext from './StoreContext'
-// import StoreContext from './storeContext'
 
 const StoreProvider = props => {
     const [cart, setCart] = useState([])

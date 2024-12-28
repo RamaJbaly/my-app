@@ -6,14 +6,8 @@ export default function RootLayout() {
   return (
     <StoreProvider>
 
-      <Stack>
+      <Stack />
 
-        <Stack.Screen name="index" />
-        <Stack.Screen name="Home" options={{ headerShown: false }} />
-        <Stack.Screen name="screen2" />
-        <Stack.Screen name="cart" />
-
-      </Stack>
     </StoreProvider>
 
 
