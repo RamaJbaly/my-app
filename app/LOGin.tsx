@@ -12,17 +12,32 @@ const LOGin = () => {
     const nav = useNavigation()
 
     const logUser = async () => {
-        const response = await LoginU({ phone, password })
+        try {
+            const response = await LoginU({ phone, password })
+            console.log('response', response);
 
-        console.log(response);
-        
+            if(response.success){
+                router.navigate('/home')
+            }
 
-        if (response) {
-            router.replace("/home")
+        } catch (error) {
+            console.log('error', error);
+
         }
-        else {
-            return // error message
-        }
+
+
+        // console.log(response.data);
+
+        // console.log("response", response);
+
+
+        // if (response.success) {
+        //     router.replace("/home")
+        // }
+        // else {
+        //     console.log("error");
+
+        // }
     }
 
     const presslogin = () => {
@@ -61,9 +76,11 @@ const LOGin = () => {
             <TouchableOpacity onPress={press2}>
                 <Text>create account</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.btn} onPress={() => { logUser() }}>
+
+            <TouchableOpacity style={styles.btn} onPress={() => logUser()}>
                 <Text style={styles.done2}>DONE</Text>
             </TouchableOpacity>
+
             <TouchableOpacity onPress={() => nav.navigate("home")}>
 
             </TouchableOpacity>

@@ -1,12 +1,37 @@
 import { StyleSheet, Text, View ,TextInput,TouchableOpacity} from 'react-native'
 import React, { useState } from 'react'
 // import { TextInput } from 'react-native-gesture-handler'
+import { createUser } from '@/res/api';
+import { useNavigation } from 'expo-router';
 
 const Register = () => {
+  const nav=useNavigation()
     const[userName,setUserName]= useState('')
     const[password,setpassword]=useState('')
     const[email,seteEmail]=useState('')
-    const [age,setAge]= useState('')
+const[phone,setPhone]=useState('')
+
+    const registerUser=()=>{
+      const body={
+
+        UserName:userName,
+        email:email,
+        phone:phone,
+        password:password
+      }
+      createUser(body)
+      .then((Response)=>{
+        if(Response.success){
+          nav.navigate('home')
+        }
+        else{
+
+
+        alert('error')
+        }
+      })
+      }
+    
   return (
     <View style={styles.container}>
       
@@ -39,11 +64,11 @@ style={styles.ret3}
   <Text>Age</Text>
 <TextInput
 style={styles.ret3}
-  value = {age}
-  onChangeText={setAge}
+  value = {phone}
+  onChangeText={setPhone}
 
     />
-       <TouchableOpacity >
+       <TouchableOpacity  onPress={registerUser}>
                 <Text style={styles.done3}>DONE</Text>
             </TouchableOpacity>
 

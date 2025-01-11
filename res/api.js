@@ -1,25 +1,41 @@
-export const baseUrl = 'https://appserver-6b0e.onrender.com'
-export const LoginU = async (phone) => {
-    const url = "/login ";
-    return await fetchApi(url,"POST",phone)
+const baseUrl = 'https://appserver-6b0e.onrender.com'
+
+
+export const LoginU = async (body) => {
+    console.log("body is", body);
+
+    const url = "/log-in";
+    return fetchApi(url, "POST", body)
+}
+export const createUser = async (body) => {
+    const url = "/createUser"
+    return await fetchApi(url, 'POST', body);
+};
+export const FindUser = async (body) => {
+    const url = "/FindUser"
+    return fetchApi(url, 'POST', body);
 
 }
-export const fetchApi = async (route, method, body) => {
-    console.log("body is", body);
-    
+export const DeletUser = async (body) => {
+    const url = "/createUser"
+    return await fetchApi(url, 'POST', body);
+
+
+};
+
+const fetchApi = async (route, method, body) => {
     const url = baseUrl + route;
     return await fetch(url, {
         method: method || 'GET',
         headers: {
-            'content-Tybe': 'application/json',
+            'Content-Type': 'application/json',
         },
-        body: body
-    }).then(res => res.json())
+        body: JSON.stringify(body),
+    }).then(res => {
+        const x = res.json()
+        return x
+    })
         .catch((error) => {
             console.error("fetch Error", error?.message);
         });
-
 }
-
-
-
